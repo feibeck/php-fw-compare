@@ -12,3 +12,6 @@ vendor/composer
 vendor/.composer
 vendor/autoload.php
 vendor/zendframework
+vendor/bin
+vendor/doctrine
+vendor/symfony
