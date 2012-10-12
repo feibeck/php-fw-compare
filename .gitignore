@@ -8,3 +8,7 @@ nbproject
 .settings
 composer.lock
 error.log
+vendor/composer
+vendor/.composer
+vendor/autoload.php
+vendor/zendframework
