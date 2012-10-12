@@ -40,6 +40,20 @@ return array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
-    )
+    ),
+    'doctrine' => array(
+         'driver' => array(
+             'Todo' . '_driver' => array(
+                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                 'cache' => 'array',
+                 'paths' => array(__DIR__ . '/../src/' . 'Todo' . '/Entity')
+             ),
+             'orm_default' => array(
+                 'drivers' => array(
+                     'Todo' . '\Entity' => 'Todo' . '_driver'
+                 )
+             )
+         )
+     )
 
 );
