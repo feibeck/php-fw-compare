@@ -12,13 +12,25 @@ use Todo\Entity\Todo as TodoEntity;
 
 class IndexController extends AbstractActionController
 {
+
+    /**
+     * @var EntityManager
+     */
+    private $em;
+
+    /**
+     * Constructor setting the EntityManager
+     *
+     * @param EntityManager $em
+     */
+    public function __construct(EntityManager $em)
+    {
+        $this->em = $em;
+    }
+
     public function indexAction()
     {
-
-        /** @var $em \Doctrine\ORM\EntityManager */
-        $em = $this->getServiceLocator()->get("doctrine.entitymanager.orm_default");
-
-        $todoEntities = $em->getRepository('Todo\Entity\Todo')->findAll();
+        $todoEntities = $this->em->getRepository('Todo\Entity\Todo')->findAll();
 
         return new ViewModel(
             array(
@@ -32,9 +44,6 @@ class IndexController extends AbstractActionController
     {
         $form = new TodoForm();
 
-        /** @var $em \Doctrine\ORM\EntityManager */
-        $em = $this->getServiceLocator()->get("doctrine.entitymanager.orm_default");
-
         $id = $this->params()->fromRoute('id', false);
         if (!$id) {
 
@@ -42,7 +51,7 @@ class IndexController extends AbstractActionController
 
         } else {
 
-            $todo = $em->getRepository('Todo\Entity\Todo')->find($id);
+            $todo = $this->em->getRepository('Todo\Entity\Todo')->find($id);
             if (!$todo) {
                 throw new \InvalidArgumentException("Invalid ID parameter");
             }
@@ -59,8 +68,8 @@ class IndexController extends AbstractActionController
              if ($form->isValid()) {
 
 
-                 $em->persist($todo);
-                 $em->flush();
+                 $this->em->persist($todo);
+                 $this->em->flush();
 
                  return $this->redirect()->toRoute('todo');
              }
@@ -73,16 +82,15 @@ class IndexController extends AbstractActionController
     {
         $id = $this->params()->fromRoute('id');
 
-        $em = $this->getServiceLocator()->get("doctrine.entitymanager.orm_default");
-        $todo = $em->getRepository('Todo\Entity\Todo')->find($id);
+        $todo = $this->em->getRepository('Todo\Entity\Todo')->find($id);
         if (!$todo) {
             throw new \InvalidArgumentException("Invalid ID parameter");
         }
 
         $this->flashMessenger()->addMessage("Todo " . $todo->getTodo() . " removed");
 
-        $em->remove($todo);
-        $em->flush();
+        $this->em->remove($todo);
+        $this->em->flush();
 
         return $this->redirect()->toRoute('todo');
     }

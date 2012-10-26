@@ -68,8 +68,13 @@ return array(
         ),
     ),
     'controllers' => array(
-        'invokables' => array(
-            'Todo\Controller\Index' => 'Todo\Controller\IndexController'
+        'factories' => array(
+            'Todo\Controller\Index' => function(Zend\Mvc\Controller\ControllerManager $sm) {
+                $em = $sm->getServiceLocator()->get("doctrine.entitymanager.orm_default");
+                return new \Todo\Controller\IndexController(
+                    $em
+                );
+            }
         ),
     ),
     'view_manager' => array(
