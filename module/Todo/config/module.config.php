@@ -69,10 +69,11 @@ return array(
     ),
     'controllers' => array(
         'factories' => array(
-            'Todo\Controller\Index' => function(Zend\Mvc\Controller\ControllerManager $sm) {
-                $em = $sm->getServiceLocator()->get("doctrine.entitymanager.orm_default");
+            'Todo\Controller\Index' => function(Zend\Mvc\Controller\ControllerManager $cm) {
+                $sm = $cm->getServiceLocator();
                 return new \Todo\Controller\IndexController(
-                    $em
+                    $sm->get("doctrine.entitymanager.orm_default"),
+                    $sm->get("translator")
                 );
             }
         ),

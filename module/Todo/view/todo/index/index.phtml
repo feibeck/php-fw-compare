@@ -12,14 +12,14 @@
 <table class="table">
 
 <?php
-/** @var $todoEntities \Todo\Entity\Todo[] */
-foreach ($todoEntities as $todoEntity) {
+/** @var $todos \Todo\Entity\Todo[] */
+foreach ($todos as $todo) {
 ?>
     <tr>
-        <td><?php echo $this->escapeHtml($todoEntity->getTodo()); ?></td>
+        <td><?php echo $this->escapeHtml($todo->getTodo()); ?></td>
         <td>
-            <a href="<?php echo $this->url('todo/edit', array('id' => $todoEntity->getId())); ?>" class="btn btn-info">Edit</a>
-            <a href="<?php echo $this->url('todo/delete', array('id' => $todoEntity->getId())); ?>" class="btn btn-warning">Delete</a>
+            <a href="<?php echo $this->url('todo/edit', array('id' => $todo->getId())); ?>" class="btn btn-info">Edit</a>
+            <a href="<?php echo $this->url('todo/delete', array('id' => $todo->getId())); ?>" class="btn btn-warning">Delete</a>
         </td>
     </tr>
 <?php
