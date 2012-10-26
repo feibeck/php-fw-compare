@@ -40,6 +40,16 @@ return array(
                             ),
                         ),
                     ),
+                    'add' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/add',
+                            'defaults' => array(
+                                'controller'    => 'Index',
+                                'action'        => 'form',
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),
