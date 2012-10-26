@@ -32,7 +32,17 @@ class IndexController extends AbstractActionController
     {
         $form = new TodoForm();
 
-        $todo = new TodoEntity();
+        /** @var $em \Doctrine\ORM\EntityManager */
+        $em = $this->getServiceLocator()->get("doctrine.entitymanager.orm_default");
+
+        $id = $this->params()->fromRoute('id', false);
+        if (!$id) {
+            $todo = new TodoEntity();
+        } else {
+
+            $todo = $em->getRepository('Todo\Entity\Todo')->find($id);
+        }
+
         $form->bind($todo);
 
         if ($this->request->isPost()) {
@@ -41,8 +51,8 @@ class IndexController extends AbstractActionController
 
              // Validate the form
              if ($form->isValid()) {
-                 /** @var $em \Doctrine\ORM\EntityManager */
-                 $em = $this->getServiceLocator()->get("doctrine.entitymanager.orm_default");
+
+
                  $em->persist($todo);
                  $em->flush();
 
@@ -52,4 +62,5 @@ class IndexController extends AbstractActionController
 
         return array('form' => $form);
     }
+
 }

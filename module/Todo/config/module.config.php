@@ -36,7 +36,17 @@ return array(
                             ),
                             'defaults' => array(
                                 'controller'    => 'Index',
-                                'action'        => 'edit',
+                                'action'        => 'form',
+                            ),
+                        ),
+                    ),
+                    'add' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/add',
+                            'defaults' => array(
+                                'controller'    => 'Index',
+                                'action'        => 'form',
                             ),
                         ),
                     ),

@@ -1,14 +1,17 @@
 
-<a href="<?php echo $this->url('todo/add') ?>" class="btn btn-success">Hinzufügen</a>
+<a href="<?php echo $this->url('todo/add'); ?>" class="btn btn-success">Hinzufügen</a>
 
-<ul>
+<table class="table">
 
 <?php
 /** @var $todoEntities \Todo\Entity\Todo[] */
 foreach ($todoEntities as $todoEntity) {
 ?>
-    <li><?php echo $this->escapeHtml($todoEntity->getTodo()); ?></li>
+    <tr>
+        <td><?php echo $this->escapeHtml($todoEntity->getTodo()); ?></td>
+        <td><a href="<?php echo $this->url('todo/edit', array('id' => $todoEntity->getId())); ?>" class="btn btn-info">Edit</a></td>
+    </tr>
 <?php
 }
 ?>
-</ul>
+</table>

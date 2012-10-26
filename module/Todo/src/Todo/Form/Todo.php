@@ -22,7 +22,7 @@ class Todo extends Form\Form
         $this->add($name);
 
         $submit = new Form\Element('submit');
-        $submit->setValue('Anlegen');
+        $submit->setValue('Speichern');
         $submit->setAttributes(array(
             'type'  => 'submit'
         ));
