@@ -4,6 +4,7 @@ namespace Todo\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use \Zend\I18n\Translator\Translator;
+use Zend\View\Model\ViewModel;
 use Doctrine\ORM\EntityManager;
 use Todo\Form\Todo as TodoForm;
 use Todo\Entity\Todo as TodoEntity;
@@ -41,6 +42,16 @@ class IndexController extends AbstractActionController
 
     public function indexAction()
     {
+
+        if (!$this->zfcUserAuthentication()->hasIdentity()) {
+            $response = $this->getResponse();
+            $response->setStatusCode(401);
+
+            $viewModel = new ViewModel();
+            $viewModel->setTemplate('error/401');
+            return $viewModel;
+        }
+
         return array(
             'todos'    => $this->repository->findAll(),
             'messages' => $this->flashMessenger()->getMessages()
