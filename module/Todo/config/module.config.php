@@ -50,13 +50,16 @@ return array(
                             ),
                         ),
                     ),
-                    'add' => array(
+                    'delete' => array(
                         'type'    => 'Segment',
                         'options' => array(
-                            'route'    => '/add',
+                            'route'    => '/delete/:id',
+                            'constraints' => array(
+                                'id' => '[0-9]*',
+                            ),
                             'defaults' => array(
                                 'controller'    => 'Index',
-                                'action'        => 'form',
+                                'action'        => 'delete',
                             ),
                         ),
                     ),

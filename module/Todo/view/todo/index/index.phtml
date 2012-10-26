@@ -1,4 +1,12 @@
 
+<?php if (count($messages) > 0): ?>
+<div class="alert">
+    <?php foreach ($messages as $message): ?>
+        <p><?php echo $message; ?></p>
+    <?php endforeach; ?>
+</div>
+<?php endif; ?>
+
 <a href="<?php echo $this->url('todo/add'); ?>" class="btn btn-success">Hinzufügen</a>
 
 <table class="table">
@@ -9,7 +17,10 @@ foreach ($todoEntities as $todoEntity) {
 ?>
     <tr>
         <td><?php echo $this->escapeHtml($todoEntity->getTodo()); ?></td>
-        <td><a href="<?php echo $this->url('todo/edit', array('id' => $todoEntity->getId())); ?>" class="btn btn-info">Edit</a></td>
+        <td>
+            <a href="<?php echo $this->url('todo/edit', array('id' => $todoEntity->getId())); ?>" class="btn btn-info">Edit</a>
+            <a href="<?php echo $this->url('todo/delete', array('id' => $todoEntity->getId())); ?>" class="btn btn-warning">Delete</a>
+        </td>
     </tr>
 <?php
 }
