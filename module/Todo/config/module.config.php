@@ -27,6 +27,19 @@ return array(
                             ),
                         ),
                     ),
+                    'edit' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/edit/:id',
+                            'constraints' => array(
+                                'id' => '[0-9]*',
+                            ),
+                            'defaults' => array(
+                                'controller'    => 'Index',
+                                'action'        => 'edit',
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),
