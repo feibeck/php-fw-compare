@@ -1,0 +1,9 @@
+<a href="<?php echo $this->url('todo') ?>" class="btn btn-warning">zurück</a>
+
+
+<?php
+echo $this->form()->openTag($form);
+echo $this->formRow($form->get('todo'));
+echo $this->formSubmit($form->get('submit'));
+echo $this->form()->closeTag();
+?>

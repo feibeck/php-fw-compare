@@ -1,8 +1,14 @@
-todo
+
+<a href="<?php echo $this->url('todo/default', array('controller' => 'index', 'action' => 'form')) ?>" class="btn btn-success">Hinzufügen</a>
+
+<ul>
 
 <?php
-/** @var $todoEntities \Todo\Todo[] */
+/** @var $todoEntities \Todo\Entity\Todo[] */
 foreach ($todoEntities as $todoEntity) {
-    echo $todoEntity->getTodo();
+?>
+    <li><?php echo $this->escapeHtml($todoEntity->getTodo()); ?></li>
+<?php
 }
 ?>
+</ul>

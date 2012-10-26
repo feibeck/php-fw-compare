@@ -6,8 +6,9 @@ namespace Todo\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Todo\Entity\Todo;
 use Doctrine\ORM\EntityManager;
+use Todo\Form\Todo as TodoForm;
+use Todo\Entity\Todo as TodoEntity;
 
 class IndexController extends AbstractActionController
 {
@@ -16,9 +17,6 @@ class IndexController extends AbstractActionController
 
         /** @var $em \Doctrine\ORM\EntityManager */
         $em = $this->getServiceLocator()->get("doctrine.entitymanager.orm_default");
-        //\Zend\Debug\Debug::dump($em->getConfiguration());
-
-        //return new \Zend\View\Helper\ViewModel();
 
         $todoEntities = $em->getRepository('Todo\Entity\Todo')->findAll();
 
@@ -28,5 +26,30 @@ class IndexController extends AbstractActionController
                 "todoEntities" => $todoEntities
             )
         );
+    }
+
+    public function formAction()
+    {
+        $form = new TodoForm();
+
+        $todo = new TodoEntity();
+        $form->bind($todo);
+
+        if ($this->request->isPost()) {
+
+            $form->setData($this->request->getPost());
+
+             // Validate the form
+             if ($form->isValid()) {
+                 /** @var $em \Doctrine\ORM\EntityManager */
+                 $em = $this->getServiceLocator()->get("doctrine.entitymanager.orm_default");
+                 $em->persist($todo);
+                 $em->flush();
+
+                 return $this->redirect()->toRoute('todo');
+             }
+        }
+
+        return array('form' => $form);
     }
 }
