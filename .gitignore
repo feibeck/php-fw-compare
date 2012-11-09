@@ -16,3 +16,4 @@ vendor/bin
 vendor/doctrine
 vendor/symfony
 vendor/zf-commons
+vendor/bjy-authorize

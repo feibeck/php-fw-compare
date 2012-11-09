@@ -7,6 +7,7 @@ return array(
         'ZfcBase',
         'ZfcUser',
         'ZfcUserDoctrineORM',
+        'BjyAuthorize',
         'Todo',
     ),
     'module_listener_options' => array(

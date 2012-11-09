@@ -42,14 +42,6 @@ class IndexController extends AbstractActionController
 
     public function indexAction()
     {
-
-        if (!$this->zfcUserAuthentication()->hasIdentity()) {
-            $this->getResponse()->setStatusCode(401);
-            $viewModel = new ViewModel();
-            $viewModel->setTemplate('error/401');
-            return $viewModel;
-        }
-
         return array(
             'todos'    => $this->repository->findAll(),
             'messages' => $this->flashMessenger()->getMessages()
@@ -58,14 +50,6 @@ class IndexController extends AbstractActionController
 
     public function formAction()
     {
-
-        if (!$this->zfcUserAuthentication()->hasIdentity()) {
-            $this->getResponse()->setStatusCode(401);
-            $viewModel = new ViewModel();
-            $viewModel->setTemplate('error/401');
-            return $viewModel;
-        }
-
         $id = $this->params()->fromRoute('id');
         if ($id) {
             $todo = $this->repository->find($id);
@@ -93,13 +77,6 @@ class IndexController extends AbstractActionController
 
     public function deleteAction()
     {
-        if (!$this->zfcUserAuthentication()->hasIdentity()) {
-            $this->getResponse()->setStatusCode(401);
-            $viewModel = new ViewModel();
-            $viewModel->setTemplate('error/401');
-            return $viewModel;
-        }
-
         $id = $this->params()->fromRoute('id');
         $todo = $this->repository->find($id);
         if (!$todo) {
