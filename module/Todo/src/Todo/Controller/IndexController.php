@@ -42,8 +42,13 @@ class IndexController extends AbstractActionController
 
     public function indexAction()
     {
+        $user = $this->zfcUserAuthentication()->getIdentity();
+        $this->em->merge($user);
+
+        $todos = $user->getTodos();
+
         return array(
-            'todos'    => $this->repository->findAll(),
+            'todos'    => $todos,
             'messages' => $this->flashMessenger()->getMessages()
         );
     }
@@ -66,7 +71,11 @@ class IndexController extends AbstractActionController
         if ($this->request->isPost()) {
             $form->setData($this->request->getPost());
             if ($form->isValid()) {
-                $this->em->persist($form->getData());
+                $user = $this->zfcUserAuthentication()->getIdentity();
+                $todo = $form->getData();
+                $this->em->merge($user);
+                $user->addTodo($todo);
+                $this->em->persist($todo);
                 $this->em->flush();
                 return $this->redirect()->toRoute('todo');
             }

@@ -30,6 +30,14 @@ class Todo implements InputFilterAwareInterface
      */
     protected $todo;
 
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="\Todo\Entity\User", inversedBy="todos")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     */
+    protected $user;
+
     protected $inputFilter;
 
     /**
@@ -123,5 +131,10 @@ class Todo implements InputFilterAwareInterface
     public function getArrayCopy()
     {
         return get_object_vars($this);
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user = $user;
     }
 }
