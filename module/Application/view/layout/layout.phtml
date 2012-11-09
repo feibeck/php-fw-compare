@@ -31,6 +31,14 @@
                         <ul class="nav">
                             <li class="active"><a href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Home') ?></a></li>
                         </ul>
+                        <ul class="nav pull-right">
+                            <?php if ($this->ZfcUserIdentity()): ?>
+                            <li><p class="navbar-text"><?php echo $this->ZfcUserDisplayName(); ?></p></li>
+                            <li><a href="<?php echo $this->url("zfcuser/logout"); ?>"><?php echo $this->translate("Logout"); ?></a></li>
+                            <?php else: ?>
+                            <li><a href="<?php echo $this->url("zfcuser/logout"); ?>"><?php echo $this->translate("Login"); ?></a></li>
+                            <?php endif; ?>
+                        </ul>
                     </div><!--/.nav-collapse -->
                 </div>
             </div>
