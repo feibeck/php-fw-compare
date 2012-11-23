@@ -56,6 +56,11 @@ class User implements UserInterface
      */
     protected $todos;
 
+    /**
+     * @var int
+     */
+    protected $state;
+
     public function __construct() {
         $this->todos = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -181,4 +186,25 @@ class User implements UserInterface
         $this->todos[] = $todo;
     }
 
-}
+    /**
+     * Get state.
+     *
+     * @return int
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * Set state.
+     *
+     * @param int $state
+     *
+     * @return UserInterface
+     */
+    public function setState($state)
+    {
+        $this->state = (int) $state;
+        return $this;
+    }}
