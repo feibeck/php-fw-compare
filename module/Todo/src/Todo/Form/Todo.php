@@ -3,8 +3,6 @@
 namespace Todo\Form;
 
 use Zend\Form;
-use Zend\InputFilter\InputFilter;
-use Zend\Validator\NotEmpty;
 
 class Todo extends Form\Form
 {
@@ -18,8 +16,18 @@ class Todo extends Form\Form
             'type'  => 'text'
         ));
 
-
         $this->add($name);
+
+
+        $reminderDate = new Form\Element('reminderDate');
+        $reminderDate
+            ->setLabel('Remind me')
+            ->setAttributes(array(
+                'id' => 'reminderDate',
+                'type'  => 'text'
+            ));
+
+        $this->add($reminderDate);
 
         $submit = new Form\Element('submit');
         $submit->setValue('Speichern');

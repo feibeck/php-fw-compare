@@ -75,12 +75,14 @@ class IndexController extends AbstractActionController
                 $todo = $form->getData();
                 $this->em->merge($user);
                 $user->addTodo($todo);
+
                 $this->em->persist($todo);
                 $this->em->flush();
                 return $this->redirect()->toRoute('todo');
             }
         }
 
+        //\Zend\Debug\Debug::dump($form);
         return array('form' => $form);
     }
 

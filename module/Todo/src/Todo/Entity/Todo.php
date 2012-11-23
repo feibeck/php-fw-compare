@@ -41,6 +41,20 @@ class Todo implements InputFilterAwareInterface
     protected $inputFilter;
 
     /**
+     * @ORM\Column(type="string")
+     * @var \String
+     */
+    protected $reminderDate;
+
+    /**
+     * äh
+     */
+    public function __construct() {
+        $date = new \DateTime('now');
+        $this->reminderDate = '2012-02-02 15:00:00';
+    }
+
+    /**
      * @param int $id
      * @return \Todo\Entity\Todo
      */
@@ -97,7 +111,7 @@ class Todo implements InputFilterAwareInterface
      */
     public function getInputFilter()
     {
-        if (!$this->inputFilter) {
+         if (!$this->inputFilter) {
             $filter = new InputFilter();
             $filter->add(array(
                  'name' => 'todo',
@@ -110,6 +124,15 @@ class Todo implements InputFilterAwareInterface
                      new \Zend\Validator\NotEmpty(),
                  ),
              ));
+            /*$filter->add(array(
+                 'name' => 'reminderDate',
+                 'required' => true,
+                 'filters' => array(
+                 ),
+                 'validators' => array(
+                     new \Zend\Validator\NotEmpty(),
+                 ),
+             ));*/
             $this->inputFilter = $filter;
         }
 
@@ -136,5 +159,24 @@ class Todo implements InputFilterAwareInterface
     public function setUser(User $user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return \Datetime
+     */
+    public function getReminderDate()
+    {
+        return $this->reminderDate;
+    }
+
+    /**
+     * @param \Datetime $reminderDate
+     * @return \Todo\Entity\Todo
+     */
+    public function setReminderDate($reminderDate)
+    {
+        \Zend\Debug\Debug::dump($reminderDate);exit;
+        $this->reminderDate = $reminderDate;
+        return $this;
     }
 }

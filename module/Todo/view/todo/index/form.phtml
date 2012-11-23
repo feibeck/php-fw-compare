@@ -1,9 +1,48 @@
 <a href="<?php echo $this->url('todo') ?>" class="btn btn-warning">zurück</a>
 
-
 <?php
 echo $this->form()->openTag($form);
 echo $this->formRow($form->get('todo'));
+?>
+
+<div class="input-append bootstrap-timepicker-component">
+     <input type="text" id="timepicker" class="input-small" disabled="disabled">
+     <span class="add-on">
+         <i class="icon-time"></i>
+     </span>
+ </div>
+
+<div class="input-append date" id="datepicker" data-date="<?php echo date('y-m-d'); ?>" data-date-format="yyyy-mm-dd">
+    <input class="span2" size="16" type="text" value="" readonly disabled="disabled">
+    <span class="add-on"><i class="icon-th"></i></span>
+</div>
+
+<?php echo $this->formInput($form->get('reminderDate')); ?>
+
+<?php
 echo $this->formSubmit($form->get('submit'));
 echo $this->form()->closeTag();
 ?>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#timepicker').timepicker({
+            minuteStep: 1,
+            template: 'modal',
+            showSeconds: false,
+            showMeridian: false
+        });
+
+        $('#datepicker').datepicker();
+
+        $('#Todo').submit(function() {
+
+            var time = $('#timepicker').val();
+            var date = $('#datepicker input').val();
+
+            $('#reminderDate').val(date + 'T' + time + ':00Z');
+        });
+
+    });
+</script>
