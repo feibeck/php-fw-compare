@@ -31,6 +31,13 @@ class Todo implements InputFilterAwareInterface
     protected $todo;
 
     /**
+     * @ORM\Column(type="datetime",nullable=true)
+     *
+     * @var \DateTime
+     */
+    protected $reminderDate;
+
+    /**
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="\Todo\Entity\User", inversedBy="todos")
@@ -123,6 +130,43 @@ class Todo implements InputFilterAwareInterface
     {
         $this->id = (isset($data['id'])) ? $data['id'] : null;
         $this->todo = (isset($data['todo'])) ? $data['todo'] : null;
+        if (isset($data['reminderDate'])) {
+            $this->setReminderDate($data['reminderDate']);
+        }
+    }
+
+    /**
+     * @param \DateTime|string $reminderDate
+     */
+    public function setReminderDate($reminderDate)
+    {
+        if (is_string($reminderDate)) {
+            $reminderDate = \DateTime::createFromFormat(
+                \DateTime::RFC3339,
+                $reminderDate
+            );
+        }
+        $this->reminderDate = $reminderDate;
+    }
+
+    /**
+     * Returns the reminder date.
+     *
+     * Either returns the \DateTime instance, null or if a format specifier
+     * is given a string.
+     *
+     * @param string|boolean $format
+     *
+     * @return \DateTime|string
+     */
+    public function getReminderDate($format = false)
+    {
+        if ($format && $this->reminderDate) {
+            return $this->reminderDate->format($format);
+        } elseif ($format) {
+            return "";
+        }
+        return $this->reminderDate;
     }
 
     /**

@@ -11,12 +11,19 @@
 
 <table class="table">
 
+    <tr>
+        <th>Todo</th>
+        <th>Remind me</th>
+        <th></th>
+    </tr>
+
 <?php
 /** @var $todos \Todo\Entity\Todo[] */
 foreach ($todos as $todo) {
 ?>
     <tr>
         <td><?php echo $this->escapeHtml($todo->getTodo()); ?></td>
+        <td><?php echo $todo->getReminderDate("d.m.Y H:i") ?></td>
         <td>
             <a href="<?php echo $this->url('todo/edit', array('id' => $todo->getId())); ?>" class="btn btn-info">Edit</a>
             <a href="<?php echo $this->url('todo/delete', array('id' => $todo->getId())); ?>" class="btn btn-warning">Delete</a>

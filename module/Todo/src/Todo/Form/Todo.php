@@ -12,14 +12,19 @@ class Todo extends Form\Form
     {
         parent::__construct('Todo');
 
-        $name = new Form\Element('todo');
+        $name = new Form\Element\Text('todo');
         $name->setLabel('Your todo');
-        $name->setAttributes(array(
-            'type'  => 'text'
-        ));
-
 
         $this->add($name);
+
+        $reminderDate = new Form\Element\DateTime('reminderDate');
+        $reminderDate
+            ->setLabel('Remind me')
+            ->setAttributes(array(
+                'id' => 'reminderDate'
+            ));
+
+        $this->add($reminderDate);
 
         $submit = new Form\Element('submit');
         $submit->setValue('Speichern');
@@ -28,8 +33,6 @@ class Todo extends Form\Form
         ));
 
         $this->add($submit);
-
-
     }
 
 }

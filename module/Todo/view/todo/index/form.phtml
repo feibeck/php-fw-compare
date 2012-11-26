@@ -4,6 +4,7 @@
 <?php
 echo $this->form()->openTag($form);
 echo $this->formRow($form->get('todo'));
+echo $this->formRow($form->get('reminderDate'));
 echo $this->formSubmit($form->get('submit'));
 echo $this->form()->closeTag();
 ?>
