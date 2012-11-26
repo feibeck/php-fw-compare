@@ -3,7 +3,6 @@
 return array(
     'bjyauthorize' => array(
         'default_role' => 'guest',
-        'identity_provider' => 'BjyAuthorize\Provider\Identity\ZfcUserDoctrine',
         'unauthorized_strategy' => 'BjyAuthorize\View\UnauthorizedStrategy',
         'role_providers' => array(
             'BjyAuthorize\Provider\Role\Config' => array(
@@ -22,7 +21,6 @@ return array(
             ),
         ),
     ),
-
     'view_manager' => array(
         'template_map' => array(
             'error/403' => __DIR__ . '/../../module/Application/view/error/403.phtml',

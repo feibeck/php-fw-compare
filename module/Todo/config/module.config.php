@@ -96,6 +96,17 @@ return array(
                  )
              )
          )
-     )
-
+     ),
+    'service_manager' => array(
+        'factories' => array(
+            'Todo\Authorize\IdentityProvider' => function ($sm) {
+                $provider = new \Todo\Authorize\IdentityProvider();
+                $provider->setUserService($sm->get('zfcuser_user_service'));
+                return $provider;
+            },
+        ),
+    ),
+    'bjyauthorize' => array(
+        'identity_provider' => 'Todo\Authorize\IdentityProvider',
+    ),
 );

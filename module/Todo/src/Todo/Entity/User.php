@@ -209,4 +209,18 @@ class User implements UserInterface
     {
         $this->state = (int) $state;
         return $this;
-    }}
+    }
+
+    /**
+     * Roles are static
+     *
+     * @return array
+     */
+    public function getRoles()
+    {
+        return array(
+            'user'
+        );
+    }
+
+}
