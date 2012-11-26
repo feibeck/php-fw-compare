@@ -58,6 +58,8 @@ class User implements UserInterface
 
     /**
      * @var int
+     *
+     * @ORM\Column(type="smallint")
      */
     protected $state;
 
