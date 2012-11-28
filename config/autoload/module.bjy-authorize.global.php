@@ -18,6 +18,7 @@ return array(
             'BjyAuthorize\Guard\Controller' => array(
                 array('controller' => 'zfcuser', 'roles' => array()),
                 array('controller' => 'Todo\Controller\Index', 'roles' => array('user')),
+                array('controller' => 'Todo\Controller\Cli', 'roles' => array('guest', 'user')),
             ),
         ),
     ),

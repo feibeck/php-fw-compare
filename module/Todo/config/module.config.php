@@ -67,6 +67,21 @@ return array(
             ),
         ),
     ),
+    'console' => array(
+        'router' => array(
+            'routes' => array(
+                'user-reset-password' => array(
+                    'options' => array(
+                        'route'    => 'emailreminder',
+                        'defaults' => array(
+                            'controller' => 'Todo\Controller\Cli',
+                            'action'     => 'email-reminder'
+                        )
+                    )
+                )
+            )
+        )
+    ),
     'controllers' => array(
         'factories' => array(
             'Todo\Controller\Index' => function(Zend\Mvc\Controller\ControllerManager $cm) {
@@ -74,6 +89,14 @@ return array(
                 return new \Todo\Controller\IndexController(
                     $sm->get("doctrine.entitymanager.orm_default"),
                     $sm->get("translator")
+                );
+            },
+            'Todo\Controller\Cli' => function(Zend\Mvc\Controller\ControllerManager $cm) {
+                $sm = $cm->getServiceLocator();
+                $em = $sm->get("doctrine.entitymanager.orm_default");
+                return new \Todo\Controller\CliController(
+                    $em->getRepository('\Todo\Entity\Todo'),
+                    $sm->get("MailTransport")
                 );
             }
         ),
@@ -104,6 +127,16 @@ return array(
                 $provider->setUserService($sm->get('zfcuser_user_service'));
                 return $provider;
             },
+            'MailTransport' => function($sm) {
+                $options   = new Zend\Mail\Transport\FileOptions(array(
+                    'path'              => 'data/mail/',
+                    'callback'  => function (\Zend\Mail\Transport\File $transport) {
+                        return 'Message_' . microtime(true) . '_' . mt_rand() . '.txt';
+                    },
+                ));
+                $transport = new \Zend\Mail\Transport\File($options);
+                return $transport;
+            }
         ),
     ),
     'bjyauthorize' => array(

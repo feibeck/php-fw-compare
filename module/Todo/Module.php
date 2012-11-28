@@ -6,7 +6,12 @@ use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\EventManager\Event;
 
-class Module
+use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
+use Zend\ModuleManager\Feature\ConsoleBannerProviderInterface;
+
+use Zend\Console\Adapter\AdapterInterface as Console;
+
+class Module implements ConsoleUsageProviderInterface, ConsoleBannerProviderInterface
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -62,4 +67,21 @@ class Module
             ),
         );
     }
+
+    public function getConsoleUsage(Console $console){
+        return array(
+            'emailreminder' => 'Send E-Mails for all reminders',
+        );
+    }
+
+    public function getConsoleBanner(Console $console)
+    {
+        return
+            "==------------------------------------------------------==\n" .
+            "        Welcome to TODO app                               \n" .
+            "==------------------------------------------------------==\n" .
+            "Version 0.0.1\n"
+        ;
+    }
+
 }

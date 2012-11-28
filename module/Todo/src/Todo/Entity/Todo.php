@@ -11,7 +11,7 @@ use \ArrayObject;
 
 /**
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Todo\Entity\TodoRepository")
  *
  */
 class Todo implements InputFilterAwareInterface
@@ -181,4 +181,13 @@ class Todo implements InputFilterAwareInterface
     {
         $this->user = $user;
     }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
 }
