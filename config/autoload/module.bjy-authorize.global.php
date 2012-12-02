@@ -19,6 +19,7 @@ return array(
                 array('controller' => 'zfcuser', 'roles' => array()),
                 array('controller' => 'Todo\Controller\Index', 'roles' => array('user')),
                 array('controller' => 'Todo\Controller\Cli', 'roles' => array('guest', 'user')),
+                array('controller' => 'Todo\Controller\Feed', 'roles' => array('guest', 'user')),
             ),
         ),
     ),

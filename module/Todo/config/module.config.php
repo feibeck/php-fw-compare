@@ -65,6 +65,20 @@ return array(
                     ),
                 ),
             ),
+            'feed' => array(
+                'type'    => 'Segment',
+                'options' => array(
+                    'route'    => '/feed/:userhash',
+                    'constraints' => array(
+                        'userhash' => '[a-zA-Z0-9]*',
+                    ),
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Todo\Controller',
+                        'controller'    => 'Feed',
+                        'action'        => 'feed',
+                    ),
+                ),
+            ),
         ),
     ),
     'console' => array(
@@ -97,6 +111,14 @@ return array(
                 return new \Todo\Controller\CliController(
                     $em->getRepository('\Todo\Entity\Todo'),
                     $sm->get("MailTransport")
+                );
+            },
+            'Todo\Controller\Feed' => function(Zend\Mvc\Controller\ControllerManager $cm) {
+                $sm = $cm->getServiceLocator();
+                $em = $sm->get("doctrine.entitymanager.orm_default");
+                return new \Todo\Controller\FeedController(
+                    $em->getRepository('\Todo\Entity\Todo'),
+                    $em->getRepository('\Todo\Entity\User')
                 );
             }
         ),

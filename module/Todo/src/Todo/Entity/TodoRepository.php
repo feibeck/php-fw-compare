@@ -36,4 +36,13 @@ class TodoRepository extends EntityRepository
         return $query->getResult();
     }
 
+    public function getTodosForUser(User $user)
+    {
+        $query = $this->_em->createQuery(
+            'SELECT t FROM Todo\Entity\Todo t WHERE t.user = :user'
+        );
+        $query->setParameter('user', $user);
+        return $query->getResult();
+    }
+
 }

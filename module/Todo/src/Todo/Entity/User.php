@@ -6,7 +6,7 @@ use ZfcUser\Entity\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Todo\Entity\UserRepository")
  * @ORM\Table(name="todo_user")
  */
 class User implements UserInterface
@@ -61,7 +61,14 @@ class User implements UserInterface
      *
      * @ORM\Column(type="smallint")
      */
-    protected $state;
+    protected $state = 0;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    protected $hash;
 
     public function __construct() {
         $this->todos = new \Doctrine\Common\Collections\ArrayCollection();
@@ -221,6 +228,22 @@ class User implements UserInterface
         return array(
             'user'
         );
+    }
+
+    /**
+     * @param string $hash
+     */
+    public function setHash($hash)
+    {
+        $this->hash = $hash;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHash()
+    {
+        return $this->hash;
     }
 
 }
