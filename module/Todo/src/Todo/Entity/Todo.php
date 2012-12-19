@@ -18,6 +18,10 @@ use \ArrayObject;
 class Todo implements InputFilterAwareInterface
 {
 
+    const PRIORITY_LOW    = 0;
+    const PRIORITY_NORMAL = 1;
+    const PRIORITY_HIGH   = 2;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -57,6 +61,14 @@ class Todo implements InputFilterAwareInterface
      * @ORM\Column(type="boolean")
      */
     protected $done = false;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $priority = self::PRIORITY_NORMAL;
+
 
     protected $inputFilter;
 
@@ -148,6 +160,7 @@ class Todo implements InputFilterAwareInterface
     {
         $this->id = (isset($data['id'])) ? $data['id'] : null;
         $this->todo = (isset($data['todo'])) ? $data['todo'] : null;
+        $this->priority = (isset($data['priority'])) ? $data['priority'] : null;
         if (isset($data['reminderDate'])) {
             $this->setReminderDate($data['reminderDate']);
         }
@@ -234,6 +247,22 @@ class Todo implements InputFilterAwareInterface
     public function setDone($done)
     {
         $this->done = $done;
+    }
+
+    /**
+     * @param int $priority
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPriority()
+    {
+        return $this->priority;
     }
 
 }

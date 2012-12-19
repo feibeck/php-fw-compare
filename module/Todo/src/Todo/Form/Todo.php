@@ -6,6 +6,8 @@ use Zend\Form;
 use Zend\InputFilter\InputFilter;
 use Zend\Validator\NotEmpty;
 
+use Todo\Entity\Todo as TodoEntity;
+
 class Todo extends Form\Form
 {
     public function __construct()
@@ -16,6 +18,15 @@ class Todo extends Form\Form
         $name->setLabel('Your todo');
 
         $this->add($name);
+
+        $priority = new Form\Element\Radio('priority');
+        $priority->setValueOptions(array(
+            TodoEntity::PRIORITY_LOW => 'Low',
+            TodoEntity::PRIORITY_NORMAL => 'Normal',
+            TodoEntity::PRIORITY_HIGH => 'High',
+        ));
+        $priority->setLabel('Priority');
+        $this->add($priority);
 
         $reminderDate = new Form\Element\DateTime('reminderDate');
         $reminderDate

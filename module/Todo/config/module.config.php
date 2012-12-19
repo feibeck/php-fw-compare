@@ -190,4 +190,9 @@ return array(
     'bjyauthorize' => array(
         'identity_provider' => 'Todo\Authorize\IdentityProvider',
     ),
+    'view_helpers' => array(
+       'invokables' => array(
+          'prio' => 'Todo\ViewHelper\Priority',
+       ),
+    ),
 );
