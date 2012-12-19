@@ -42,7 +42,7 @@ class Todo implements InputFilterAwareInterface
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="\Todo\Entity\User", inversedBy="todos")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $user;
 
