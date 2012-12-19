@@ -1,0 +1,17 @@
+
+<h1>Share Todo &quot;<?= $todo->getTodo(); ?>&quot;</h1>
+
+<?php if ($error): ?>
+<p><?= $errorMessage; ?></p>
+<?php endif; ?>
+
+<form method="post">
+
+    Share with:
+    <input type="text" name="user">
+
+    <br />
+
+    <input type="submit" value="Share">
+
+</form>

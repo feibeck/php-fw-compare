@@ -3,6 +3,7 @@
 namespace Todo\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use \Doctrine\Common\Collections\ArrayCollection;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 use Zend\InputFilter\InputFilter;
@@ -41,11 +42,21 @@ class Todo implements InputFilterAwareInterface
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="\Todo\Entity\User", inversedBy="todos")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     * @ORM\JoinColumn(name="id", referencedColumnName="id")
      */
     protected $user;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="\Todo\Entity\User", mappedBy="sharedTodos")
+     **/
+    private $sharedBy;
+
     protected $inputFilter;
+
+    public function __construct() {
+        $this->users = new ArrayCollection();
+        $this->sharedBy = new ArrayCollection();
+    }
 
     /**
      * @param int $id
@@ -190,4 +201,21 @@ class Todo implements InputFilterAwareInterface
         return $this->user;
     }
 
+    /**
+     * @return User[]
+     */
+    public function getSharedBy()
+    {
+        return $this->sharedBy;
+    }
+
+    /**
+     * Shares this todo with a user
+     *
+     * @param User $user
+     */
+    public function share(User $user)
+    {
+        $this->sharedBy[] = $user;
+    }
 }

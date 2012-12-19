@@ -17,31 +17,70 @@
 </div>
 <?php endif; ?>
 
-<a href="<?php echo $this->url('todo/add'); ?>" class="btn btn-success">Hinzufügen</a>
+<div class="row">
 
-<table class="table">
+    <div class="span6">
 
-    <tr>
-        <th>Todo</th>
-        <th>Remind me</th>
-        <th></th>
-    </tr>
+        <h2>Deine Todos</h2>
 
-<?php
-/** @var $todos \Todo\Entity\Todo[] */
-foreach ($todos as $todo) {
-?>
-    <tr>
-        <td><?php echo $this->escapeHtml($todo->getTodo()); ?></td>
-        <td><?php echo $todo->getReminderDate("d.m.Y H:i") ?></td>
-        <td>
-            <a href="<?php echo $this->url('todo/edit', array('id' => $todo->getId())); ?>" class="btn btn-info">Edit</a>
-            <a href="<?php echo $this->url('todo/delete', array('id' => $todo->getId())); ?>" class="btn btn-warning">Delete</a>
-        </td>
-    </tr>
-<?php
-}
-?>
-</table>
+        <a href="<?php echo $this->url('todo/add'); ?>" class="btn btn-success">Hinzufügen</a>
+
+        <table class="table">
+
+            <tr>
+                <th>Todo</th>
+                <th>Remind me</th>
+                <th></th>
+            </tr>
+
+        <?php
+        /** @var $todos \Todo\Entity\Todo[] */
+        foreach ($todos as $todo) {
+        ?>
+            <tr>
+                <td><?php echo $this->escapeHtml($todo->getTodo()); ?></td>
+                <td><?php echo $todo->getReminderDate("d.m.Y H:i") ?></td>
+                <td>
+                    <a href="<?php echo $this->url('todo/edit', array('id' => $todo->getId())); ?>" class="btn btn-info">Edit</a>
+                    <a href="<?php echo $this->url('todo/share', array('id' => $todo->getId())); ?>" class="btn btn-info">Share</a>
+                    <a href="<?php echo $this->url('todo/delete', array('id' => $todo->getId())); ?>" class="btn btn-warning">Delete</a>
+                </td>
+            </tr>
+        <?php
+        }
+        ?>
+        </table>
+
+    </div>
+
+    <div class="span6">
+
+        <h2>Geteilte Todos</h2>
+
+        <table class="table">
+
+            <tr>
+                <th>Todo</th>
+                <th>Remind me</th>
+                <th>Owner</th>
+            </tr>
+
+        <?php
+        /** @var $sharedTodos \Todo\Entity\Todo[] */
+        foreach ($sharedTodos as $todo) {
+        ?>
+            <tr>
+                <td><?php echo $this->escapeHtml($todo->getTodo()); ?></td>
+                <td><?php echo $todo->getReminderDate("d.m.Y H:i") ?></td>
+                <td><?= $todo->getUser()->getEmail(); ?></td>
+            </tr>
+        <?php
+        }
+        ?>
+        </table>
+
+    </div>
+
+</div>
 
 <p>Todos per RSS: <a href="<?php echo $feedUrl; ?>">Dein Todo-Feed</a></p>

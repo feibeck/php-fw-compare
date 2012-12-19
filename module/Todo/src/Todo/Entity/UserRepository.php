@@ -18,7 +18,21 @@ class UserRepository extends EntityRepository
             'SELECT u FROM Todo\Entity\User u WHERE u.hash = :hash'
         );
         $query->setParameter('hash', $hash);
-        return $query->getSingleResult();
+        return $query->getOneOrNullResult();
+    }
+
+    /**
+     * @param string $email
+     *
+     * @return User
+     */
+    public function findByEmail($email)
+    {
+        $query = $this->_em->createQuery(
+            'SELECT u FROM Todo\Entity\User u WHERE u.email = :email'
+        );
+        $query->setParameter('email', $email);
+        return $query->getOneOrNullResult();
     }
 
 }

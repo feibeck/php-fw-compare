@@ -2,8 +2,10 @@
 
 namespace Todo\Entity;
 
-use ZfcUser\Entity\UserInterface;
-use Doctrine\ORM\Mapping as ORM;
+use \ZfcUser\Entity\UserInterface;
+
+use \Doctrine\ORM\Mapping as ORM;
+use \Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="Todo\Entity\UserRepository")
@@ -16,7 +18,7 @@ class User implements UserInterface
      * @var int
      *
      * @ORM\Id
-     * @ORM\Column(name="user_id",type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
     protected $id;
@@ -70,8 +72,17 @@ class User implements UserInterface
      */
     protected $hash;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="\Todo\Entity\Todo", inversedBy="sharedBy")
+     * @ORM\JoinTable(name="shares")
+     **/
+    protected $sharedTodos;
+
     public function __construct() {
-        $this->todos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->todos = new ArrayCollection();
+        $this->sharedTodos = new ArrayCollection();
     }
 
     /**
@@ -244,6 +255,24 @@ class User implements UserInterface
     public function getHash()
     {
         return $this->hash;
+    }
+
+    /**
+     * @return Todo[]
+     */
+    public function getSharedTodos()
+    {
+        return $this->sharedTodos;
+    }
+
+    /**
+     * Shares the todo with the user
+     *
+     * @param Todo $todo
+     */
+    public function share(Todo $todo)
+    {
+        $this->sharedTodos[] = $todo;
     }
 
 }
