@@ -56,6 +56,13 @@ class Todo implements InputFilterAwareInterface
     private $sharedBy;
 
     /**
+     * @var \Todo\Enity\Tag[]
+     *
+     * @ORM\ManyToMany(targetEntity="\Todo\Entity\Tag", mappedBy="todos", indexBy="name")
+     */
+    private $tags;
+
+    /**
      * @var bool
      *
      * @ORM\Column(type="boolean")
@@ -72,9 +79,20 @@ class Todo implements InputFilterAwareInterface
 
     protected $inputFilter;
 
+    /**
+     * @var TagFactoryInterface
+     */
+    protected $tagFactory;
+
     public function __construct() {
         $this->users = new ArrayCollection();
         $this->sharedBy = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+    }
+
+    public function setTagFactory(TagFactoryInterface $factory)
+    {
+        $this->tagFactory = $factory;
     }
 
     /**
@@ -164,6 +182,13 @@ class Todo implements InputFilterAwareInterface
         if (isset($data['reminderDate'])) {
             $this->setReminderDate($data['reminderDate']);
         }
+        if (isset($data['tags'])) {
+            $tags = explode(",", $data['tags']);
+            foreach ($tags as $tag) {
+                $tag = trim($tag);
+                $this->addTag($tag);
+            }
+        }
     }
 
     /**
@@ -205,7 +230,15 @@ class Todo implements InputFilterAwareInterface
      */
     public function getArrayCopy()
     {
-        return get_object_vars($this);
+        $out = array(
+            'id' => $this->id,
+            'todo' => $this->todo,
+            'reminderDate' => $this->reminderDate,
+            'tags' => $this->getTagsAsString(),
+            'done' => $this->done,
+            'priority' => $this->priority
+        );
+        return $out;
     }
 
     public function setUser(User $user)
@@ -263,6 +296,49 @@ class Todo implements InputFilterAwareInterface
     public function getPriority()
     {
         return $this->priority;
+    }
+
+    public function getTagsAsString()
+    {
+        $tags = array();
+        foreach ($this->tags as $tag) {
+            $tags[] = $tag->getName();
+        }
+        return implode(", ", $tags);
+    }
+
+    /**
+     * Adds a tag
+     *
+     * @param string|Tag $tag
+     *
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
+    public function addTag($tag)
+    {
+        if ($this->tagFactory == null) {
+            throw new \RuntimeException(
+                "No factory for tags set. Could not create tags"
+            );
+        }
+
+        if (is_string($tag)) {
+            $tag = $this->tagFactory->factory($tag);
+        }
+
+        if (!$tag instanceof Tag) {
+            throw new \InvalidArgumentException(
+                "Argument needs to be of type \Todo\Entity\Tag or string"
+            );
+        }
+
+        if (isset($this->tags[$tag->getName()])) {
+            return;
+        }
+
+        $tag->addTodo($this);
+        $this->tags[$tag->getName()] = $tag;
     }
 
 }

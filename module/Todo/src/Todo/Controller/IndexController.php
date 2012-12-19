@@ -73,13 +73,20 @@ class IndexController extends AbstractActionController
         $form->bind($todo);
 
         if ($this->request->isPost()) {
+
+            $tagFactory = $this->em->getRepository('\Todo\Entity\Tag');
+            $todo->setTagFactory($tagFactory);
+
             $form->setData($this->request->getPost());
             if ($form->isValid()) {
                 /** @var $user \Todo\Entity\User */
                 $user = $this->zfcUserAuthentication()->getIdentity();
-                $todo = $form->getData();
+
+
+
                 $this->em->merge($user);
                 $todo->setUser($user);
+
                 $this->em->persist($todo);
                 $this->em->flush();
                 return $this->redirect()->toRoute('todo');

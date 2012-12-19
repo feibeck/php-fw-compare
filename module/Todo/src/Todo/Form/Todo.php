@@ -37,6 +37,10 @@ class Todo extends Form\Form
 
         $this->add($reminderDate);
 
+        $tags = new Form\Element\Text('tags');
+        $tags->setLabel('Tags');
+        $this->add($tags);
+
         $submit = new Form\Element('submit');
         $submit->setValue('Speichern');
         $submit->setAttributes(array(
