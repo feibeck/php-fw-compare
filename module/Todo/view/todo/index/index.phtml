@@ -2,8 +2,7 @@
 
     $feedUrl = $this->url(
         'feed',
-        array('userhash' => $this->ZfcUserIdentity()->getHash()),
-        $urlOptions
+        array('userhash' => $this->ZfcUserIdentity()->getHash())
     );
 
     $this->headLink()->appendAlternate($feedUrl, "application/rss+xml", "RSS");
