@@ -76,6 +76,19 @@ return array(
                             ),
                         ),
                     ),
+                    'done' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/done/:id',
+                            'constraints' => array(
+                                'id' => '[0-9]*',
+                            ),
+                            'defaults' => array(
+                                'controller'    => 'Index',
+                                'action'        => 'done',
+                            ),
+                        ),
+                    ),
                 ),
             ),
             'feed' => array(

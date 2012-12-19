@@ -51,6 +51,13 @@ class Todo implements InputFilterAwareInterface
      **/
     private $sharedBy;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     */
+    protected $done = false;
+
     protected $inputFilter;
 
     public function __construct() {
@@ -218,4 +225,15 @@ class Todo implements InputFilterAwareInterface
     {
         $this->sharedBy[] = $user;
     }
+
+    public function isDone()
+    {
+        return $this->done;
+    }
+
+    public function setDone($done)
+    {
+        $this->done = $done;
+    }
+
 }

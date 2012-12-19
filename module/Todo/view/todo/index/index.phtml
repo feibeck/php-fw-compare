@@ -43,6 +43,7 @@
                 <td>
                     <a href="<?php echo $this->url('todo/edit', array('id' => $todo->getId())); ?>" class="btn btn-info">Edit</a>
                     <a href="<?php echo $this->url('todo/share', array('id' => $todo->getId())); ?>" class="btn btn-info">Share</a>
+                    <a href="<?php echo $this->url('todo/done', array('id' => $todo->getId())); ?>" class="btn btn-info">Done</a>
                     <a href="<?php echo $this->url('todo/delete', array('id' => $todo->getId())); ?>" class="btn btn-warning">Delete</a>
                 </td>
             </tr>
@@ -51,6 +52,33 @@
         ?>
         </table>
 
+        <?php if (count($doneTodos) > 0): ?>
+
+        <h2>Abgeschlossene Todos</h2>
+
+        <table class="table">
+
+            <tr>
+                <th>Todo</th>
+                <th>Remind me</th>
+                <th></th>
+            </tr>
+
+        <?php
+        /** @var $todos \Todo\Entity\Todo[] */
+        foreach ($doneTodos as $todo) {
+        ?>
+            <tr>
+                <td><?php echo $this->escapeHtml($todo->getTodo()); ?></td>
+                <td><?php echo $todo->getReminderDate("d.m.Y H:i") ?></td>
+                <td></td>
+            </tr>
+        <?php
+        }
+        ?>
+        </table>
+
+        <?php endif; ?>
     </div>
 
     <div class="span6">

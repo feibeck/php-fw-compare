@@ -18,7 +18,7 @@ class IndexController extends AbstractActionController
     private $em;
 
     /**
-     * @var \Doctrine\ORM\EntityRepository
+     * @var \Todo\Entity\TodoRepository
      */
     private $repository;
 
@@ -45,12 +45,14 @@ class IndexController extends AbstractActionController
         $user = $this->zfcUserAuthentication()->getIdentity();
         $this->em->merge($user);
 
-        $todos = $user->getTodos();
-        $sharedTodos = $user->getSharedTodos();
+        $todos = $this->repository->getTodosForUser($user);
+        $done = $this->repository->getDone($user);
+        $sharedTodos = $this->repository->getShared($user);
 
         return array(
             'todos'    => $todos,
             'sharedTodos' => $sharedTodos,
+            'doneTodos'   => $done,
             'messages' => $this->flashMessenger()->getMessages()
         );
     }
@@ -73,10 +75,11 @@ class IndexController extends AbstractActionController
         if ($this->request->isPost()) {
             $form->setData($this->request->getPost());
             if ($form->isValid()) {
+                /** @var $user \Todo\Entity\User */
                 $user = $this->zfcUserAuthentication()->getIdentity();
                 $todo = $form->getData();
                 $this->em->merge($user);
-                $user->addTodo($todo);
+                $todo->setUser($user);
                 $this->em->persist($todo);
                 $this->em->flush();
                 return $this->redirect()->toRoute('todo');
@@ -84,6 +87,28 @@ class IndexController extends AbstractActionController
         }
 
         return array('form' => $form);
+    }
+
+    public function doneAction()
+    {
+        $id = $this->params()->fromRoute('id');
+        $todo = $this->repository->find($id);
+        if (!$todo) {
+            throw new \InvalidArgumentException("Invalid ID parameter");
+        }
+
+        $todo->setDone(true);
+        $this->em->persist($todo);
+        $this->em->flush();
+
+        $this->flashMessenger()->addMessage(
+            sprintf(
+                $this->translator->translate('Todo "%s" marked as done'),
+                $todo->getTodo()
+            )
+        );
+
+        return $this->redirect()->toRoute('todo');
     }
 
     public function deleteAction()

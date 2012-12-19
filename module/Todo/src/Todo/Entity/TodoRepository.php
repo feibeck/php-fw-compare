@@ -39,7 +39,25 @@ class TodoRepository extends EntityRepository
     public function getTodosForUser(User $user)
     {
         $query = $this->_em->createQuery(
-            'SELECT t FROM Todo\Entity\Todo t WHERE t.user = :user'
+            'SELECT t FROM Todo\Entity\Todo t WHERE t.user = :user AND t.done = 0'
+        );
+        $query->setParameter('user', $user);
+        return $query->getResult();
+    }
+
+    public function getDone(User $user)
+    {
+        $query = $this->_em->createQuery(
+            'SELECT t FROM Todo\Entity\Todo t WHERE t.user = :user AND t.done = 1'
+        );
+        $query->setParameter('user', $user);
+        return $query->getResult();
+    }
+
+    public function getShared(User $user)
+    {
+        $query = $this->_em->createQuery(
+            'SELECT t FROM Todo\Entity\Todo t JOIN t.sharedBy u WHERE u = :user AND t.done = 0'
         );
         $query->setParameter('user', $user);
         return $query->getResult();
